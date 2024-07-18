@@ -49,6 +49,10 @@ function NavBar() {
     navegator("/cart");
   }
 
+  const handleLogo = () => {
+    navegator("/");
+  }
+
 
   return (
     <AppBar position="static">
@@ -85,6 +89,7 @@ function NavBar() {
                   color: "inherit",
                   textDecoration: "none",
                 }}
+                onClick={handleLogo}
               >
                 GHub
               </Typography>
