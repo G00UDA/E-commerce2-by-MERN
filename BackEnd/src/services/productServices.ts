@@ -7,22 +7,22 @@ export const GetAllProducts = async()=>{
 export const seedInitialProducts = async () => {
       const products = [
         {
-          Title: "Dell Laptop",
-          Img:
+          title: "Dell Laptop",
+          image:
             "https://www.hp.com/gb-en/shop/Html/Merch/Images/c06723377_1750x1285.jpg",
           price: 15000,
           stock: 10,
         },
         {
-          Title: "Asus Laptop",
-          Img:
+          title: "Asus Laptop",
+          image:
             "https://www.hp.com/gb-en/shop/Html/Merch/Images/c06723377_1750x1285.jpg",
           price: 25000,
           stock: 20,
         },
         {
-          Title: "HP Laptop",
-          Img:
+          title: "HP Laptop",
+          image:
             "https://www.hp.com/gb-en/shop/Html/Merch/Images/c06723377_1750x1285.jpg",
           price: 40000,
           stock: 8,

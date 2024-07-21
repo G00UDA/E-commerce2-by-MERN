@@ -14,12 +14,19 @@ const CreateCartForUser = async ({ userId }: CreateCartForUser) => {
 
 interface GetActiveCartForUser {
   userId: string;
+  populateproduct?: boolean;
 }
 
 export const GetActiveCartForUser = async ({
-  userId,
+  userId,populateproduct
 }: GetActiveCartForUser) => {
-  let cart = await CardModel.findOne({ userId, status: "active" });
+  let cart;
+  if(populateproduct){
+    cart = await CardModel.findOne({ userId, status: "active" }).populate("item.product");
+  }
+  else{
+    cart = await CardModel.findOne({ userId, status: "active" });
+  }
 
   if (!cart) {
     cart = await CreateCartForUser({ userId });
@@ -66,9 +73,9 @@ export const addItemToCart = async ({
 
   cart.totalAmounds += product.price * quantity;
 
-  const UpdatedCart = await cart.save();
+   await cart.save();
 
-  return { data: UpdatedCart, statuscode: 200 };
+  return { data: await GetActiveCartForUser({userId , populateproduct: true}), statuscode: 200 };
 };
 
 interface UpdateItemFromCart {
@@ -111,9 +118,9 @@ export const UpdateItemFromCart = async ({
 
   total += productExist.quantity * productExist.unitprice;
 
-  const UpdatedCart = await Cart.save();
+  await Cart.save();
 
-  return { data: UpdatedCart, statuscode: 200 };
+  return { data: await GetActiveCartForUser({userId , populateproduct: true}), statuscode: 200 };
 };
 
 interface DeleteItemFromCart{
@@ -142,8 +149,9 @@ export const DeleteItemFromCart = async({userId , productId}: DeleteItemFromCart
 
   cart.totalAmounds = total;
 
-  const DeleteItem = await cart.save();
-  return { data: DeleteItem , statuscode: 200 };
+  await cart.save();
+
+  return { data: await GetActiveCartForUser({userId , populateproduct: true}) , statuscode: 200 };
 
 }
 
@@ -187,8 +195,8 @@ export const checkout = async ({ userId, address }: Checkout) => {
     }
 
     const orderItem: IorderItem = {
-      producttitle: product.Title,
-      productImage: product.Img,
+      producttitle: product.title,
+      productImage: product.image,
       quantity: item.quantity,
       unitprice: item.unitprice,
     };

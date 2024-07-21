@@ -2,18 +2,16 @@ import { createContext, useContext } from "react";
 import { CartItem } from "../../types/cartcontext";
 
 
-interface CartContext {
-    cartItems: CartItem[];
-    TotalAmount: number;
-    addToCart: (productId: string) => void;
+interface CartContextType {
+  cartItems: CartItem[];
+  totalAmounds: number;
+  addItemToCart: (productId: string) => void;
 }
 
-export const CartContext = createContext<CartContext>({
-    cartItems: [],
-    TotalAmount:0,
-    addToCart: () => {}
-})
+export const CartContext = createContext<CartContextType>({
+  cartItems: [],
+  totalAmounds: 0,
+  addItemToCart: () => {}
+});
 
-// eslint-disable-next-line react-hooks/rules-of-hooks
-export const userCart = () => useContext(CartContext);
-
+export const useCart = () => useContext(CartContext);

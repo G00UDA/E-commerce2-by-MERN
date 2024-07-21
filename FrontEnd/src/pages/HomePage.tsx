@@ -3,12 +3,13 @@ import ProductCard from "../components/ProductsCard";
 import { useEffect, useState } from "react";
 import { Product } from "../types/products";
 import { BASE_URL } from "../constants/base_url";
+import { useCart } from "../context/cart/CartContext";
 
 const HomePage = () => {
 
     const [products , setproducts] = useState<Product[]>([]);
     const [error , seterror] = useState(false);
-    
+    const {cartItems}= useCart()
 
     useEffect(()=>{
         const FetchData = async ()=>{
@@ -31,8 +32,8 @@ const HomePage = () => {
     <div>
       <Container sx={{mt:4}}>
         <Grid container spacing={2}>
-            {products.map(({_id , Img , Title , price})=>(
-                <Grid item md={4}><ProductCard id={_id} title={Title} img={Img} price={price} /></Grid>
+            {products.map(({_id , image , title , price})=>(
+                <Grid item md={4}><ProductCard id={_id} title={title} img={image} price={price} /></Grid>
             ))}
         </Grid>
       </Container>
