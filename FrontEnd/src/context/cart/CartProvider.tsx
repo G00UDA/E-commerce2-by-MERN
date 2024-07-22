@@ -96,12 +96,55 @@ const CartProvider: FC<PropsWithChildren> = ({ children }) => {
     }
   };
 
+  const updatequantity = async (productId: string , quantity: number) => {
+    try {
+      const response = await fetch(`${BASE_URL}/cart/items`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          productId,
+          quantity,
+        }),
+      });
+
+      if (!response.ok) {
+        setError("Failed to add to cart");
+      }
+
+      const cart = await response.json();
+
+      if (!cart) {
+        setError("Failed to parse cart data");
+      }
+
+      const cartItemsMapped = cart.item.map(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        ({ product, quantity , unitprice }: { product: any; quantity: number , unitprice: number }) => ({
+          productId: product._id,
+          title: product.title,
+          image: product.image,
+          quantity,
+          unitprice,
+        })
+      );
+
+      setCartItems([...cartItemsMapped]);
+      setTotalAmount(cart.totalAmounds);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <CartContext.Provider
       value={{
         cartItems,
         totalAmounds,
         addItemToCart,
+        updatequantity,
       }}
     >
       {children}
