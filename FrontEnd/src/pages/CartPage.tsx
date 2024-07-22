@@ -3,7 +3,7 @@ import { useCart } from "../context/cart/CartContext";
 
 const CartPage = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { cartItems , totalAmounds , updatequantity , removeItemFromCart} = useCart();
+  const { cartItems , totalAmounds , updatequantity , removeItemFromCart , ClearUserCart} = useCart();
 
 
   const handlequantity = (productId: string , quantity: number)=>{
@@ -18,6 +18,10 @@ const CartPage = () => {
   const handleremoveItem = (productId: string)=>{
     removeItemFromCart(productId)
     console.log(productId);
+  }
+
+  const handleClearCart = ()=>{
+    ClearUserCart();
   }
 
   return (
@@ -35,6 +39,10 @@ const CartPage = () => {
         >
           MY CART
         </Typography>
+        <Box display="flex" alignItems="center" justifyContent="center" mb={3} mt={1}>
+          <Button onClick={handleClearCart} variant="contained">Clear Cart</Button>
+        </Box>
+        {cartItems.length ? (
         <Box display="flex" flexDirection="column" gap={2}>
         {cartItems.map((i) => (
           <Box
@@ -67,6 +75,9 @@ const CartPage = () => {
           </Box>
         ))}
         </Box>
+        ):(
+          <Typography>The Cart Is Empty, Please Start Shopping</Typography>
+        )}
         <Box><Typography variant="h3" m="20px">TotalAmount:{totalAmounds.toFixed(2)} EGP</Typography></Box>
       </Container>
     </div>
