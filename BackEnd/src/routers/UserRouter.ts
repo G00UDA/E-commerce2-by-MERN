@@ -1,6 +1,7 @@
 
 import express from "express";
-import { Login, register } from "../services/userServices";
+import { GetMyOrders, Login, register } from "../services/userServices";
+import validateJWT, { ExtendRequest } from "../middlewares/validateJwt";
 
 
 const router = express.Router();
@@ -34,6 +35,16 @@ router.post("/register", async (request, response) => {
     const {email , password} = request.body;
     const {statusCode , data } = await Login({email , password});
     response.status(statusCode).json(data);
+  })
+
+  router.get("/my-orders" , validateJWT , async (request: ExtendRequest, response) => {
+    try {
+      const userId = request.user._id;
+      const {data , statusCode} = await GetMyOrders({userId});
+      response.status(statusCode).send(data);
+    } catch (error) {
+      
+    }
   })
 
 export default router;

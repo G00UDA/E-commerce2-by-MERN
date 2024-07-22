@@ -12,8 +12,8 @@ import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { useAuth } from "../context/Auth/AuthContext";
 import { Badge, Button, Grid } from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import { ShoppingCart, Token } from "@mui/icons-material";
+import {useNavigate } from "react-router-dom";
+import { ShoppingCart} from "@mui/icons-material";
 import { useCart } from "../context/cart/CartContext";
 
 function NavBar() {
@@ -23,37 +23,40 @@ function NavBar() {
 
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
-  const navegator = useNavigate();
+  const navegate = useNavigate();
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
   };
 
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
 
+  const handleMyOrder = ()=>{
+    handleCloseUserMenu
+    navegate("/my-orders");
+    
+  }
+
   const handleSideBarButton = () => {
-    navegator("/login");
+    navegate("/login");
   };
 
   const handlelogoutSideBarButton = () => {
     logout();
-    navegator("/");
+    navegate("/");
     handleCloseUserMenu();
   };
 
 
   const handleCartTap = ()=>{
-    navegator("/cart");
+    navegate("/cart");
   }
 
   const handleLogo = () => {
-    navegator("/");
+    navegate("/");
   }
 
 
@@ -143,8 +146,8 @@ function NavBar() {
                     open={Boolean(anchorElUser)}
                     onClose={handleCloseUserMenu}
                   >
-                    <MenuItem onClick={handleCloseUserMenu}>
-                      <Typography textAlign="center">Go To Cart</Typography>
+                    <MenuItem onClick={handleMyOrder}>
+                      <Typography textAlign="center">My Orders</Typography>
                     </MenuItem>
                     <MenuItem onClick={handlelogoutSideBarButton}>
                       <Typography textAlign="center">Logout</Typography>
