@@ -3,7 +3,7 @@ import { useCart } from "../context/cart/CartContext";
 
 const CartPage = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { cartItems , totalAmounds , updatequantity} = useCart();
+  const { cartItems , totalAmounds , updatequantity , removeItemFromCart} = useCart();
 
 
   const handlequantity = (productId: string , quantity: number)=>{
@@ -12,6 +12,12 @@ const CartPage = () => {
         return;
     }
     updatequantity(productId , quantity);
+  }
+
+  
+  const handleremoveItem = (productId: string)=>{
+    removeItemFromCart(productId)
+    console.log(productId);
   }
 
   return (
@@ -51,7 +57,7 @@ const CartPage = () => {
               <Typography>
                 {i.quantity} x {i.unitprice}
               </Typography>
-              <Button>RemoveItem</Button>
+              <Button onClick={()=> handleremoveItem(i.productId)}>RemoveItem</Button>
               </Box>
             </Box>
             <ButtonGroup variant="contained" aria-label="Basic button group">

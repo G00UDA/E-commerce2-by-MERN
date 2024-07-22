@@ -27,7 +27,7 @@ router.put("/items", validateJWT , async(req : ExtendRequest , res)=>{
   res.status(response.statuscode).send(response.data);
 })
 
-router.delete("/items/:proudctId", validateJWT , async(req : ExtendRequest , res)=>{
+router.delete("/items/:productId", validateJWT , async(req : ExtendRequest , res)=>{
   const userId = req.user._id;
   const {productId } = req.params;
   const response = await DeleteItemFromCart({userId , productId});
