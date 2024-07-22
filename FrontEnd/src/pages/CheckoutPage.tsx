@@ -1,19 +1,43 @@
-import { Box, ButtonGroup, Container, Typography, Button, TextField } from "@mui/material";
+import { Box, Container, Typography, Button, TextField } from "@mui/material";
 import { useCart } from "../context/cart/CartContext";
 import { useNavigate } from "react-router-dom";
 import { useRef } from "react";
+import { BASE_URL } from "../constants/base_url";
+import { useAuth } from "../context/Auth/AuthContext";
 
 const CheckoutPage = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { cartItems, totalAmounds } = useCart();
 
-  const addressRef = useRef<HTMLInputElement>(null);
-
   const navigate = useNavigate();
 
-  const handleCheckout = () => {
-    navigate("/checkout");
-  };
+  const {token} = useAuth();
+
+  const addressRef = useRef<HTMLInputElement>(null);
+
+
+
+  const handleConfirmOrder = async () => {
+    const address = addressRef.current?.value;
+
+    if(!address)return;
+
+    const response = await fetch(`${BASE_URL}/cart/checkout`,{
+        method: "POST",
+        headers: { 'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}` 
+         },
+        body: JSON.stringify({
+            address
+        }),
+    });
+
+    if(!response.ok)return;
+
+    navigate("/ordersuccess")
+
+
+  }
 
   return (
     <div>
@@ -84,7 +108,7 @@ const CheckoutPage = () => {
             </Typography>
           </Box>
         </Box>
-        <Button fullWidth sx={{mt:2}} variant="contained" onClick={handleCheckout}>
+        <Button fullWidth sx={{mt:2 , mb:7}} variant="contained" onClick={handleConfirmOrder} >
           Pay Now
         </Button>
       </Container>

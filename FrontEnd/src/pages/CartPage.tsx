@@ -118,7 +118,7 @@ const CartPage = () => {
         ) : (
           <Typography>The Cart Is Empty, Please Start Shopping</Typography>
         )}
-        <Box display="flex" flexDirection="row" justifyContent="space-between" mt={3}>
+        <Box display="flex" flexDirection="row" justifyContent="space-between" mt={3} mb={7}>
           <Typography variant="h4">
             Total Amount: {totalAmounds.toFixed(2)} EGP
           </Typography>
